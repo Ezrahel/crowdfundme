@@ -1,0 +1,241 @@
+.fundraising-setup {
+  min-height: 100vh;
+  display: flex;
+  background: #fff;
+}
+
+.setup-sidebar {
+  width: 30%;
+  background: #E1F3EF;
+  padding: 3.5rem;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(19, 173, 183, 0.1);
+}
+
+.sidebar-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.logo {
+  color: #13ADB7;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 4rem;
+}
+
+.setup-intro h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.setup-intro p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.setup-main {
+  width: 70%;
+  margin-left: 30%;
+  min-height: 100vh;
+  background: #ffffff;
+  position: relative;
+  padding-bottom: 100px; /* Space for fixed setup-actions */
+}
+
+.setup-form {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.location-section h2,
+.category-section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.location-section p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.support-link {
+  color: #666;
+  text-decoration: underline;
+}
+
+.location-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 600px;
+}
+
+.select-wrapper,
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.select-wrapper label,
+.input-wrapper label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+select,
+input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background: #fff;
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.category-button {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 2rem;
+  background: #fff;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.category-button:hover {
+  border-color: #13ADB7;
+  color: #13ADB7;
+}
+
+.category-button.selected {
+  background: #E8F7F7;
+  border-color: #13ADB7;
+  color: #13ADB7;
+}
+
+.setup-actions {
+  position: fixed;
+  bottom: 0;
+  width: calc(78% - 7rem);
+  max-width: 1000px;
+  margin: 0 auto;
+  left: calc(26% + 3.5rem);
+  background: #faf5f5;
+  padding: 1.5rem 0;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 10;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.continue-button {
+  background: #E8E8E8;
+  color: #999;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: not-allowed;
+  transition: all 0.2s ease;
+  min-width: 160px;
+  margin-right: 25px;
+}
+
+.continue-button:not(.disabled) {
+  background: #13ADB7;
+  color: #fff;
+  cursor: pointer;
+}
+
+.continue-button:not(.disabled):hover {
+  background: #0F8A92;
+}
+
+@media (max-width: 768px) {
+  .fundraising-setup {
+    flex-direction: column;
+  }
+
+  .setup-sidebar {
+    width: 100%;
+    position: relative;
+    padding: 2rem;
+  }
+
+  .setup-main {
+    width: 100%;
+    margin-left: 0;
+    padding-bottom: 100px;
+  }
+
+  .setup-form {
+    padding: 2rem;
+  }
+
+  .setup-actions {
+    width: calc(100% - 4rem); /* Full width - padding on both sides */
+    left: 2rem;
+    padding: 1rem 0;
+    max-width: 800px;
+  }
+
+  .location-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .setup-intro h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Add smooth transitions */
+.setup-main, .setup-sidebar, .setup-actions {
+  transition: all 0.3s ease;
+} 

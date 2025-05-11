@@ -1,0 +1,202 @@
+body {
+  background: #fff;
+  color: #181818;
+}
+
+.goal-setup-container {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.goal-setup-sidebar {
+  width: 36vw;
+  min-width: 340px;
+  background: #f8f7f3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 0 0 2vw;
+}
+
+.goal-sidebar-content {
+  width: 80%;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 40px;
+}
+
+.goal-sidebar-icon {
+  margin-bottom: 32px;
+  margin-top: 12px;
+}
+
+.goal-sidebar-step {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 18px;
+}
+
+.goal-sidebar-title {
+  font-size: 2.6rem;
+  font-weight: 500;
+  margin: 0 0 18px 0;
+  line-height: 1.1;
+}
+
+.goal-sidebar-desc {
+  font-size: 1.15rem;
+  color: #222;
+  margin-bottom: 0;
+}
+
+.goal-setup-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 2vw;
+}
+
+.goal-form {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.goal-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.goal-input-label {
+  font-size: 1.1rem;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.goal-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #d6d6d6;
+  border-radius: 16px;
+  background: #fff;
+  padding: 0 18px;
+  height: 60px;
+  font-size: 1.5rem;
+  box-sizing: border-box;
+}
+
+.goal-currency {
+  font-size: 1.5rem;
+  color: #888;
+  margin-right: 10px;
+}
+
+.goal-input {
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  background: transparent;
+  width: 100%;
+  color: #222;
+}
+
+.goal-currency-btn {
+  background: #edeae2;
+  color: #555;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 16px;
+  padding: 4px 18px;
+  margin-left: 12px;
+  letter-spacing: 1px;
+}
+
+.goal-suggestion-box {
+  background: #f8f7f3;
+  border-radius: 20px;
+  padding: 24px 28px 18px 28px;
+  margin-top: 8px;
+  font-size: 1.13rem;
+  color: #222;
+  box-sizing: border-box;
+}
+
+.goal-suggestion-title {
+  font-size: 1.18rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.goal-suggestion-divider {
+  border: none;
+  border-top: 1px solid #e2e2e2;
+  margin: 0 0 12px 0;
+}
+
+.goal-suggestion-detail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #888;
+  font-size: 1.05rem;
+}
+
+.goal-suggestion-icon {
+  font-size: 1.1rem;
+  color: #1a7f37;
+}
+
+.goal-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.goal-back-btn {
+  background: #fff;
+  border: 1.5px solid #e2e2e2;
+  border-radius: 14px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+
+.goal-back-btn:hover {
+  border: 1.5px solid #1a7f37;
+}
+
+.goal-back-arrow {
+  font-size: 2rem;
+  color: #222;
+}
+
+.goal-continue-btn {
+  background: #181818;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  padding: 14px 44px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.goal-continue-btn:hover {
+  background: #222;
+} 

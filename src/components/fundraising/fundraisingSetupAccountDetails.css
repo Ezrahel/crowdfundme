@@ -1,0 +1,129 @@
+.account-setup-container {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.account-setup-sidebar {
+  width: 36vw;
+  min-width: 340px;
+  background: #f8f7f3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 0 0 2vw;
+}
+
+.account-sidebar-content {
+  width: 80%;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 40px;
+}
+
+.account-sidebar-step {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 18px;
+}
+
+.account-sidebar-title {
+  font-size: 2.2rem;
+  font-weight: 500;
+  margin: 0 0 18px 0;
+  line-height: 1.1;
+}
+
+.account-sidebar-desc {
+  font-size: 1.15rem;
+  color: #222;
+  margin-bottom: 0;
+}
+
+.account-setup-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 2vw;
+}
+
+.account-form {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.account-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.account-input-label {
+  font-size: 1.1rem;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.account-input {
+  border: 1.5px solid #d6d6d6;
+  border-radius: 12px;
+  background: #fff;
+  padding: 12px 16px;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.account-info-box {
+  background: #f8f7f3;
+  border-radius: 14px;
+  padding: 18px 22px;
+  color: #222;
+  margin-top: 8px;
+  font-size: 1.05rem;
+}
+
+.account-info-box h3 {
+  font-size: 1.13rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.account-info-box ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.account-info-box li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.account-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.account-continue-btn {
+  background: #181818;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.15rem;
+  font-weight: 500;
+  padding: 12px 38px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.account-continue-btn:hover {
+  background: #222;
+} 
