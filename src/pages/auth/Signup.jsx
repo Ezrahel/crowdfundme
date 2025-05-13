@@ -36,13 +36,10 @@ const Signup = () => {
       ...prev,
       [name]: newValue
     }));
-
-    // Clear specific error when user types
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
 
-    // Validate password requirements in real-time
     if (name === 'password') {
       validatePassword(value);
     }
@@ -104,27 +101,22 @@ const Signup = () => {
     let isValid = true;
     let newErrors = {};
 
-    // Validate all fields
     ['fullName', 'username', 'email', 'password'].forEach(field => {
       if (!validateField(field, formData[field])) {
         isValid = false;
       }
     });
 
-    // Validate password requirements
     const passValid = passwordRequirements.every(req => req.test(formData.password));
     if (!passValid) {
       newErrors.password = 'Please meet all password requirements';
       isValid = false;
     }
-
-    // Validate password match
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
       isValid = false;
     }
 
-    // Validate terms
     if (!formData.agreeToTerms) {
       newErrors.terms = 'You must agree to the Terms and Conditions';
       isValid = false;
@@ -138,7 +130,6 @@ const Signup = () => {
     e.preventDefault();
     if (validateForm()) {
       console.log('Signup form submitted:', formData);
-      // Add your signup logic here
     }
   };
 

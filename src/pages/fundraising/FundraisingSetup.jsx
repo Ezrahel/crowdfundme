@@ -68,18 +68,20 @@ const FundraisingSetup = () => {
 
   return (
     <div className="fundraising-setup">
-      <aside className="setup-sidebar">
-        <div className="sidebar-content">
-          <Link to="/" className="logo">
-            CrowdFundMe
-          </Link>
-          <div className="setup-intro">
-            <h1>Let's begin your fundraising <br/> journey</h1>
-            <p>We're here to guide you every step <br/>of the way.</p>
-          </div>
-        </div>
-      </aside>
 
+      <aside className="setup-sidebar">
+              <div className="sidebar-content">
+                <Link to="/" className="logo">
+                  CrowdFundMe
+                </Link>
+                 <div className="setup-intro">
+                  
+            <h1 >Let's begin your fundraising <br/> journey</h1>
+                  <p>We're here to guide you every step <br/>of the way.</p>
+                  </div>
+              </div>
+            </aside>
+      
       <main className="setup-main">
         <div className="setup-form">
           <section className="location-section">

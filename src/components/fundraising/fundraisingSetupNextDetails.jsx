@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './fundraisingSetupNextDetails.css';
-import { Link } from 'react-router-dom';
+
 const getRecommendation = (days) => {
   if (days <= 20) return 'Short campaigns (1-20 days) are best for urgent needs or quick events.';
   if (days <= 40) return 'Medium campaigns (21-40 days) are optimal for most personal and community fundraisers.';
@@ -26,18 +26,15 @@ const FundraisingSetupNextDetails = () => {
   };
 
   return (
-    <div className="details-setup-container">
-      <aside className="details-setup-sidebar">
-        <div className="details-sidebar-content">
-        <Link to="/" className="logo">
-            CrowdFundMe
-          </Link>
+    <div className="fundraising-setup">
+      <aside className="fixed-sidebar">
+        <div className="sidebar-content-top">
           <div className="details-sidebar-step">3 of 5</div>
           <h1 className="details-sidebar-title">Tell your story</h1>
           <p className="details-sidebar-desc">Share what you're raising funds for and why it matters.</p>
         </div>
       </aside>
-      <main className="details-setup-main">
+      <main className="scrollable-main">
         <form className="details-form">
           <div className="details-input-group">
             <label htmlFor="fundraiser-title" className="details-input-label">Fundraiser title</label>

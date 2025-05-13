@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './fundraisingSetupGoal.css';
 import Login from '../auth/Login';
+import {Link} from 'react-router-dom'
 
 const FundraisingSetupGoal = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -30,7 +31,11 @@ const FundraisingSetupGoal = () => {
       <aside className="goal-setup-sidebar">
         <div className="goal-sidebar-content">
           <div className="goal-sidebar-icon">
-            <span role="img" aria-label="goal" style={{fontSize: '2.2rem', color: '#1a7f37'}}>🟢</span>
+            <span role="img" aria-label="goal" style={{fontSize: '2.2rem', color: '#1a7f37'}}>
+            <Link to="/" className="logo">
+            CrowdFundMe
+          </Link>
+            </span>
           </div>
           <div className="goal-sidebar-step">2 of 5</div>
           <h1 className="goal-sidebar-title">Set your<br/>starting goal</h1>
@@ -53,7 +58,9 @@ const FundraisingSetupGoal = () => {
             </div>
             <hr className="goal-suggestion-divider" />
             <div className="goal-suggestion-detail">
-              <span className="goal-suggestion-icon" role="img" aria-label="info">🟢</span>
+              <span className="goal-suggestion-icon" role="img" aria-label="info">
+              
+              </span>
               <span>Based on goals for similar fundraisers</span>
             </div>
           </div>

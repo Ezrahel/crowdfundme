@@ -15,8 +15,8 @@ const DefaultFundRaiseSetup = () => {
 
   return (
     <div className="fundraising-setup">
-      <aside className="setup-sidebar">
-        <div className="sidebar-content">
+      <aside className="setup-sidebar fixed-sidebar">
+        <div className="sidebar-content sidebar-content-top">
           <Link to="/" className="logo">
             CrowdFundMe
           </Link>
@@ -28,7 +28,7 @@ const DefaultFundRaiseSetup = () => {
         </div>
       </aside>
 
-      <main className="setup-main">
+      <main className="setup-main scrollable-main">
         <div className="setup-form">
           <div className="fundraising-options">
             <div className="fundraising-option selected" tabIndex={0}>

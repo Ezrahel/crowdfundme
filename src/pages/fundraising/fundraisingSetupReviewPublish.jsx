@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './fundraisingSetupReviewPublish.css';
-
+import { Link } from 'react-router-dom';
 const mockData = {
   whoFor: 'Yourself',
   goal: '£4,000',
@@ -57,6 +57,9 @@ const FundraisingSetupReviewPublish = () => {
     <div className="review-setup-container">
       <aside className="review-setup-sidebar">
         <div className="review-sidebar-content">
+        <Link to="/" className="logo">
+            CrowdFundMe
+          </Link>
           <div className="review-sidebar-step">5 of 5</div>
           <h1 className="review-sidebar-title">Review & Publish</h1>
           <p className="review-sidebar-desc">Check your campaign details before going live. You can edit any section.</p>

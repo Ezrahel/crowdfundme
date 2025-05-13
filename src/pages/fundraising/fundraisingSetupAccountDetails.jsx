@@ -1,11 +1,15 @@
 import React from 'react';
 import './fundraisingSetupAccountDetails.css';
+import {Link} from 'react-router-dom'
 
 const FundraisingSetupAccountDetails = () => {
   return (
     <div className="account-setup-container">
       <aside className="account-setup-sidebar">
         <div className="account-sidebar-content">
+        <Link to="/" className="logo">
+            CrowdFundMe
+          </Link>
           <div className="account-sidebar-step">4 of 5</div>
           <h1 className="account-sidebar-title">Where should we send your funds?</h1>
           <p className="account-sidebar-desc">Enter your bank account details to receive donations securely.</p>

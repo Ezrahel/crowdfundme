@@ -1,0 +1,39 @@
+.fixed-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 36vw;
+  min-width: 340px;
+  background: #f8f7f3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  z-index: 10;
+  padding: 0 0 0 2vw;
+}
+.sidebar-content-top {
+  width: 80%;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 0;
+  margin-top: 0;
+}
+.scrollable-main {
+  margin-left: 36vw;
+  min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.fundraising-setup {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+} 

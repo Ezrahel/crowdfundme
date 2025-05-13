@@ -5,14 +5,15 @@
 }
 
 .account-setup-sidebar {
-  width: 36vw;
+  width: 28vw;
   min-width: 340px;
   background: #f8f7f3;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
   align-items: flex-end;
-  padding: 0 0 0 2vw;
+  /* padding: 0 0 0 2vw; */
+  padding-right: 2vw;
 }
 
 .account-sidebar-content {
@@ -21,7 +22,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: 40px;
+  padding-top: 150px;
 }
 
 .account-sidebar-step {
