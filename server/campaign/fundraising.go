@@ -142,10 +142,84 @@ func GetCampaign(ctx *gin.Context) {
 }
 
 func UpdateCampaign(ctx *gin.Context) {
+	// Get database connection
+	db, exists := ctx.Get("db")
+	if !exists {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": "database connection not found",
+		})
+		return
+	}
 
+	sqlDB, ok := db.(*sql.DB)
+	if !ok {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": "invalid database connection type",
+		})
+		return
+	}
+
+	// Get campaign ID from URL parameter
+	id := ctx.Param("id")
+
+	// Bind request body to campaign struct
+	var campaign Campaign
+	if err := ctx.ShouldBindJSON(&campaign); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid request body",
+		})
+		return
+	}
+
+	// Update campaign in database
+	query := `
+		UPDATE fundraising 
+		SET title = $1, 
+			story = $2, 
+			campaign_days = $3, 
+			image_or_video = $4, 
+			completed = $5,
+			updated_at = CURRENT_TIMESTAMP
+		WHERE id = $6
+		RETURNING id, title, story, campaign_days, image_or_video, completed, created_at, updated_at`
+
+	err := sqlDB.QueryRow(
+		query,
+		campaign.Title,
+		campaign.Story,
+		campaign.CampaignDays,
+		campaign.ImageVideo,
+		campaign.Completed,
+		id,
+	).Scan(
+		&campaign.ID,
+		&campaign.Title,
+		&campaign.Story,
+		&campaign.CampaignDays,
+		&campaign.ImageVideo,
+		&campaign.Completed,
+		&campaign.CreatedAt,
+		&campaign.UpdatedAt,
+	)
+
+	if err == sql.ErrNoRows {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"error": "campaign not found",
+		})
+		return
+	}
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to update campaign",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, campaign)
 }
+
 func DeleteCampaign(ctx *gin.Context) {
-	db, exists := ctx.Get("db") // Fixed: was getting "id" instead of "db"
+	db, exists := ctx.Get("db")
 	if !exists {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": "couldn't get db",
