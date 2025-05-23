@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"log"
+	"os"
 	"testing"
 	"time"
 
@@ -13,9 +14,9 @@ import (
 
 func mustStartPostgresContainer() (func(context.Context, ...testcontainers.TerminateOption) error, error) {
 	var (
-		dbName = "database"
-		dbPwd  = "password"
-		dbUser = "user"
+		dbName = os.Getenv("BLUEPRINT_DB_DATABASE")
+		dbPwd  = os.Getenv("BLUEPRINT_DB_PASSWORD")
+		dbUser = os.Getenv("BLUEPRINT_DB_USERNAME")
 	)
 
 	dbContainer, err := postgres.Run(
