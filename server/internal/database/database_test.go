@@ -34,9 +34,9 @@ func mustStartPostgresContainer() (func(context.Context, ...testcontainers.Termi
 		return nil, err
 	}
 
-	database = dbName
-	password = dbPwd
-	username = dbUser
+	database = os.Getenv("BLUEPRINT_DB_DATABASE")
+	password = os.Getenv("BLUEPRINT_DB_PASSWORD")
+	username = os.Getenv("BLUEPRINT_DB_USERNAME")
 
 	dbHost, err := dbContainer.Host(context.Background())
 	if err != nil {
