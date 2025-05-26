@@ -11,9 +11,9 @@ import (
 type Campaign struct {
 	ID           int       `json:"id"`
 	Title        string    `json:"title" binding:"required"`
-	Story        string    `json:"story" binding: "required"`
-	CampaignDays int       `json:"campaign_days" binding: "required"`
-	ImageVideo   string    `json:"image_or_video" binding: "required"`
+	Story        string    `json:"story"`
+	CampaignDays int       `json:"campaign_days"`
+	ImageVideo   string    `json:"image_or_video"`
 	Completed    bool      `json:"completed"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
@@ -21,14 +21,19 @@ type Campaign struct {
 
 const CreateCampaignTable = `CREATE TABLE IF NOT EXISTS fundraising (
 id SERIAL PRIMARY KEY,
-title VARCHAR (255) NOT NULL,
+title VARCHAR(255) NOT NULL,
 story TEXT NOT NULL,
 campaign_days INTEGER NOT NULL,
-image_or_video VARCHAR (255) NOT NULL,
+image_or_video VARCHAR(255) NOT NULL,
 completed BOOLEAN DEFAULT FALSE,
-created_at TIMESTAMP DEFAULT WITH TIME ZONE DEFAULT CURRENT_TIME,
-updated_at TIMESTAMP DEFAULT WITH TIME ZONE DEFAULT CURRENT_TIME
+created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 )`
+
+func initTable(db *sql.DB) error {
+	_, err := db.Exec(CreateCampaignTable)
+	return err
+}
 
 func CreateCampaign(ctx *gin.Context) {
 	var campaign Campaign
@@ -52,15 +57,22 @@ func CreateCampaign(ctx *gin.Context) {
 		return
 	}
 
+	if err := initTable(sqlDB); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to initialize table: " + err.Error(),
+		})
+		return
+	}
+
 	query := `
-	INSERT INTO fundraising (title, story, campaign_days, completed, image_or_video, created_at, updated_at)
+	INSERT INTO fundraising (title, story, campaign_days, image_or_video, completed, created_at, updated_at)
 	VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	RETURNING id, created_at, updated_at`
 
-	err := sqlDB.QueryRow(query, campaign.Title, campaign.Story, campaign.CampaignDays, campaign.Completed, campaign.ImageVideo).Scan(&campaign.ID, &campaign.CreatedAt, &campaign.UpdatedAt)
+	err := sqlDB.QueryRow(query, campaign.Title, campaign.Story, campaign.CampaignDays, campaign.ImageVideo, campaign.Completed).Scan(&campaign.ID, &campaign.CreatedAt, &campaign.UpdatedAt)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": "could not create campaign",
+			"error": "could not create campaign: " + err.Error(),
 		})
 		return
 	}

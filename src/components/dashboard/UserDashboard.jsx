@@ -60,10 +60,13 @@ const UserDashboard = () => {
       <SignedOut>
         <div className="dashboard-container">
           <div className="dashboard-header">
-            <div className="dashboard-title">U Dashboard</div>
+            <div className="dashboard-title">User Dashboard</div>
             <div className="dashboard-icons">
               <SignInButton mode="modal" />
             </div>
+          </div>
+          <div className="dashboard-main">
+            <p style={{textAlign: 'center', marginTop: '40px', fontSize: '1.2rem'}}>Forbidden Page</p>
           </div>
           <div className="dashboard-main">
             <p style={{textAlign: 'center', marginTop: '40px', fontSize: '1.2rem'}}>Please sign in to access your dashboard.</p>

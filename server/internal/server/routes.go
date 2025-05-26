@@ -1,7 +1,9 @@
 package server
 
 import (
+	"database/sql"
 	"net/http"
+	"server/campaign"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -9,6 +11,13 @@ import (
 
 func (s *Server) RegisterRoutes() http.Handler {
 	r := gin.Default()
+
+	// Database middleware
+	r.Use(func(c *gin.Context) {
+		db := s.db.(interface{ GetDB() *sql.DB }).GetDB()
+		c.Set("db", db)
+		c.Next()
+	})
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:5173"}, // Add your frontend URL
@@ -20,6 +29,11 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r.GET("/", s.HelloWorldHandler)
 
 	r.GET("/health", s.healthHandler)
+	api := r.Group("/api/v1")
+	api.POST("/", campaign.CreateCampaign)
+	api.GET("/", campaign.GetCampaigns)
+	api.GET("/:id", campaign.GetCampaign)
+	api.DELETE("/:id", campaign.DeleteCampaign)
 
 	return r
 }
