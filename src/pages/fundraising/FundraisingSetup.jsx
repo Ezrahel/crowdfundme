@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './FundraisingSetup.css';
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { useFundraising } from '../../context/FundraisingContext';
+
 const categories = [
   { id: 'animals', label: 'Animals' },
   { id: 'business', label: 'Business' },
@@ -28,61 +30,45 @@ const categories = [
 
 const countries = [
   { id: 'uk', label: 'United Kingdom' },
-  
 ];
 
 const FundraisingSetup = () => {
-  const [formData, setFormData] = useState({
-    country: '',
-    postcode: '',
-    category: ''
-  });
-
+  const { fundraisingData, updateFundraisingData } = useFundraising();
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    const { country, postcode, category } = formData;
+    const { country, postcode, category } = fundraisingData;
     setIsValid(country && postcode && category);
-  }, [formData]);
+  }, [fundraisingData]);
 
   const handleCountryChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      country: e.target.value
-    }));
+    updateFundraisingData({ country: e.target.value });
   };
 
   const handlePostcodeChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      postcode: e.target.value
-    }));
+    updateFundraisingData({ postcode: e.target.value });
   };
 
   const handleCategorySelect = (categoryId) => {
-    setFormData(prev => ({
-      ...prev,
-      category: categoryId
-    }));
+    updateFundraisingData({ category: categoryId });
   };
 
   return (
     <div className="fundraising-setup">
-
-      <aside className="setup-sidebar">
-              <div className="sidebar-content">
-                <Link to="/" className="logo">
-                  CrowdFundMe
-                </Link>
-                 <div className="setup-intro">
-                  
-            <h1 >Let's begin your fundraising <br/> journey</h1>
-                  <p>We're here to guide you every step <br/>of the way.</p>
-                  </div>
-              </div>
-            </aside>
+      <aside className="fixed-sidebar">
+        <div className="sidebar-content">
+          <Link to="/" className="logo">
+            CrowdFundMe
+          </Link>
+          <div className="setup-intro">
+            <h3>1 of 5</h3>
+            <h1>Let's begin your fundraising journey</h1>
+            <p>We're here to guide you every step of the way.</p>
+          </div>
+        </div>
+      </aside>
       
-      <main className="setup-main">
+      <main className="scrollable-main">
         <div className="setup-form">
           <section className="location-section">
             <h2>Where will the funds go?</h2>
@@ -98,7 +84,7 @@ const FundraisingSetup = () => {
                 <label htmlFor="country">Country</label>
                 <select
                   id="country"
-                  value={formData.country}
+                  value={fundraisingData.country}
                   onChange={handleCountryChange}
                   required
                 >
@@ -116,7 +102,7 @@ const FundraisingSetup = () => {
                 <input
                   type="text"
                   id="postcode"
-                  value={formData.postcode}
+                  value={fundraisingData.postcode}
                   onChange={handlePostcodeChange}
                   placeholder="Postcode"
                   required
@@ -131,7 +117,7 @@ const FundraisingSetup = () => {
               {categories.map(category => (
                 <button
                   key={category.id}
-                  className={`category-button ${formData.category === category.id ? 'selected' : ''}`}
+                  className={`category-button ${fundraisingData.category === category.id ? 'selected' : ''}`}
                   onClick={() => handleCategorySelect(category.id)}
                 >
                   {category.label}
@@ -142,7 +128,7 @@ const FundraisingSetup = () => {
 
           <div className="setup-actions">
             <button className="back-btn" style={{marginRight:'70%', paddingRight:20, paddingLeft:20, borderRadius:5, border:'none'}} >
-            <IoIosArrowRoundBack style={{fontSize:30}} />
+              <IoIosArrowRoundBack style={{fontSize:30}} />
             </button>
             <button
               className={`continue-button ${!isValid ? 'disabled' : ''}`}

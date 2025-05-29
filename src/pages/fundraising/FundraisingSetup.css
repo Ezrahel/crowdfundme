@@ -55,6 +55,7 @@
   background: #ffffff;
   position: relative;
   padding-bottom: 100px; /* Space for fixed setup-actions */
+  overflow: visible;
 }
 
 .setup-form {

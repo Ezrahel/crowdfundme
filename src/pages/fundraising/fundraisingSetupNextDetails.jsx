@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './fundraisingSetupNextDetails.css';
+import './fundraisingSetup.css'
 import { Link } from 'react-router-dom';
 const getRecommendation = (days) => {
   if (days <= 20) return 'Short campaigns (1-20 days) are best for urgent needs or quick events.';
@@ -87,6 +88,7 @@ const FundraisingSetupNextDetails = () => {
               </label>
             </div>
           </div>
+      
           <div className="details-form-actions">
             <button type="submit" className="details-continue-btn">Continue</button>
           </div>

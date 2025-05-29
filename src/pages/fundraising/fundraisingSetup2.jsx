@@ -15,6 +15,7 @@ const DefaultFundRaiseSetup = () => {
 
   return (
     <div className="fundraising-setup">
+      
       <aside className="setup-sidebar fixed-sidebar">
         <div className="sidebar-content sidebar-content-top">
           <Link to="/" className="logo">

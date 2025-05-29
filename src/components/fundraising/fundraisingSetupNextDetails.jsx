@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './fundraisingSetupNextDetails.css';
+import './FundraisingLayout.css';
+import 'fundraisingSetup.css'
 
 const getRecommendation = (days) => {
   if (days <= 20) return 'Short campaigns (1-20 days) are best for urgent needs or quick events.';
@@ -28,12 +30,16 @@ const FundraisingSetupNextDetails = () => {
   return (
     <div className="fundraising-setup">
       <aside className="fixed-sidebar">
-        <div className="sidebar-content-top">
-          <div className="details-sidebar-step">3 of 5</div>
-          <h1 className="details-sidebar-title">Tell your story</h1>
-          <p className="details-sidebar-desc">Share what you're raising funds for and why it matters.</p>
+        <div className="sidebar-content">
+          <div className="logo">CrowdFundMe</div>
+          <div className="setup-intro">
+            <h3>3 of 5</h3>
+            <h1>Tell your story</h1>
+            <p>Share what you're raising funds for and why it matters.</p>
+          </div>
         </div>
       </aside>
+
       <main className="scrollable-main">
         <form className="details-form">
           <div className="details-input-group">
@@ -89,6 +95,18 @@ const FundraisingSetupNextDetails = () => {
           </div>
         </form>
       </main>
+      <div className="setup-actions">
+            <button className="back-btn" style={{marginRight:'70%', paddingRight:20, paddingLeft:20, borderRadius:5, border:'none'}} >
+              <IoIosArrowRoundBack style={{fontSize:30}} />
+            </button>
+            <button
+              className={`continue-button ${!isValid ? 'disabled' : ''}`}
+              disabled={!isValid}
+              onClick={() => {/* Handle continue */}}
+            >
+              Continue
+            </button>
+          </div>
     </div>
   );
 };
