@@ -9,25 +9,57 @@ import (
 )
 
 type Campaign struct {
-	ID           int       `json:"id"`
-	Title        string    `json:"title" binding:"required"`
-	Story        string    `json:"story"`
-	CampaignDays int       `json:"campaign_days"`
-	ImageVideo   string    `json:"image_or_video"`
-	Completed    bool      `json:"completed"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
+	ID int `json:"id"`
+	// Step 1: Location and Category
+	Country  string `json:"country"`
+	Postcode string `json:"postcode"`
+	Category string `json:"category"`
+
+	// Step 2: Who you're fundraising for
+	WhoFor string `json:"who_for"`
+
+	// Step 3: Goal
+	Goal     float64 `json:"goal"`
+	Currency string  `json:"currency"`
+
+	// Step 4: Campaign Details
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Story       string `json:"story"`
+	Duration    int    `json:"duration"`
+	CoverImage  string `json:"cover_image"`
+
+	// Step 5: Account Details
+	AccountHolder string `json:"account_holder"`
+	BankName      string `json:"bank_name"`
+	AccountNumber string `json:"account_number"`
+	AccountType   string `json:"account_type"`
+
+	Completed bool      `json:"completed"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 const CreateCampaignTable = `CREATE TABLE IF NOT EXISTS fundraising (
-id SERIAL PRIMARY KEY,
-title VARCHAR(255) NOT NULL,
-story TEXT NOT NULL,
-campaign_days INTEGER NOT NULL,
-image_or_video VARCHAR(255) NOT NULL,
-completed BOOLEAN DEFAULT FALSE,
-created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+	id SERIAL PRIMARY KEY,
+	country VARCHAR(255) NOT NULL,
+	postcode VARCHAR(20) NOT NULL,
+	category VARCHAR(100) NOT NULL,
+	who_for VARCHAR(100) NOT NULL,
+	goal DECIMAL(10,2) NOT NULL,
+	currency VARCHAR(3) NOT NULL,
+	title VARCHAR(255) NOT NULL,
+	description TEXT,
+	story TEXT NOT NULL,
+	duration INTEGER NOT NULL,
+	cover_image VARCHAR(255),
+	account_holder VARCHAR(255) NOT NULL,
+	bank_name VARCHAR(255) NOT NULL,
+	account_number VARCHAR(50) NOT NULL,
+	account_type VARCHAR(50) NOT NULL,
+	completed BOOLEAN DEFAULT FALSE,
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 )`
 
 func initTable(db *sql.DB) error {
@@ -41,6 +73,7 @@ func CreateCampaign(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	db, exists := ctx.Get("db")
 	if !exists {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
@@ -57,6 +90,7 @@ func CreateCampaign(ctx *gin.Context) {
 		return
 	}
 
+	// Initialize table if it doesn't exist
 	if err := initTable(sqlDB); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to initialize table: " + err.Error(),
@@ -65,17 +99,35 @@ func CreateCampaign(ctx *gin.Context) {
 	}
 
 	query := `
-	INSERT INTO fundraising (title, story, campaign_days, image_or_video, completed, created_at, updated_at)
-	VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-	RETURNING id, created_at, updated_at`
+		INSERT INTO fundraising (
+			country, postcode, category, who_for, goal, currency,
+			title, description, story, duration, cover_image,
+			account_holder, bank_name, account_number, account_type,
+			completed, created_at, updated_at
+		) VALUES (
+			$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
+			$16, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+		)
+		RETURNING id, created_at, updated_at`
 
-	err := sqlDB.QueryRow(query, campaign.Title, campaign.Story, campaign.CampaignDays, campaign.ImageVideo, campaign.Completed).Scan(&campaign.ID, &campaign.CreatedAt, &campaign.UpdatedAt)
+	err := sqlDB.QueryRow(
+		query,
+		campaign.Country, campaign.Postcode, campaign.Category,
+		campaign.WhoFor, campaign.Goal, campaign.Currency,
+		campaign.Title, campaign.Description, campaign.Story,
+		campaign.Duration, campaign.CoverImage,
+		campaign.AccountHolder, campaign.BankName,
+		campaign.AccountNumber, campaign.AccountType,
+		campaign.Completed,
+	).Scan(&campaign.ID, &campaign.CreatedAt, &campaign.UpdatedAt)
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": "could not create campaign: " + err.Error(),
 		})
 		return
 	}
+
 	ctx.JSON(http.StatusCreated, campaign)
 }
 
@@ -106,7 +158,7 @@ func GetCampaigns(ctx *gin.Context) {
 	campaigns := []Campaign{}
 	for rows.Next() {
 		var campaign Campaign
-		err := rows.Scan(&campaign.ID, &campaign.Title, &campaign.Story, &campaign.CampaignDays, &campaign.ImageVideo, &campaign.Completed, &campaign.CreatedAt, &campaign.UpdatedAt)
+		err := rows.Scan(&campaign.ID, &campaign.Country, &campaign.Postcode, &campaign.Category, &campaign.WhoFor, &campaign.Goal, &campaign.Currency, &campaign.Title, &campaign.Description, &campaign.Story, &campaign.Duration, &campaign.CoverImage, &campaign.AccountHolder, &campaign.BankName, &campaign.AccountNumber, &campaign.AccountType, &campaign.Completed, &campaign.CreatedAt, &campaign.UpdatedAt)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{
 				"error": "could not scan campaign",
@@ -143,7 +195,7 @@ func GetCampaign(ctx *gin.Context) {
 	id := ctx.Param("id")
 	query := `SELECT * FROM fundraising WHERE id = $1`
 	var campaign Campaign
-	err := sqlDB.QueryRow(query, id).Scan(&campaign.ID, &campaign.Title, &campaign.Story, &campaign.CampaignDays, &campaign.ImageVideo, &campaign.Completed, &campaign.CreatedAt, &campaign.UpdatedAt)
+	err := sqlDB.QueryRow(query, id).Scan(&campaign.ID, &campaign.Country, &campaign.Postcode, &campaign.Category, &campaign.WhoFor, &campaign.Goal, &campaign.Currency, &campaign.Title, &campaign.Description, &campaign.Story, &campaign.Duration, &campaign.CoverImage, &campaign.AccountHolder, &campaign.BankName, &campaign.AccountNumber, &campaign.AccountType, &campaign.Completed, &campaign.CreatedAt, &campaign.UpdatedAt)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": "could not get campaign",
@@ -186,29 +238,62 @@ func UpdateCampaign(ctx *gin.Context) {
 	// Update campaign in database
 	query := `
 		UPDATE fundraising 
-		SET title = $1, 
-			story = $2, 
-			campaign_days = $3, 
-			image_or_video = $4, 
-			completed = $5,
+		SET country = $1, 
+			postcode = $2, 
+			category = $3, 
+			who_for = $4, 
+			goal = $5,
+			currency = $6,
+			title = $7,
+			description = $8,
+			story = $9,
+			duration = $10,
+			cover_image = $11,
+			account_holder = $12,
+			bank_name = $13,
+			account_number = $14,
+			account_type = $15,
+			completed = $16,
 			updated_at = CURRENT_TIMESTAMP
-		WHERE id = $6
-		RETURNING id, title, story, campaign_days, image_or_video, completed, created_at, updated_at`
+		WHERE id = $17
+		RETURNING id, country, postcode, category, who_for, goal, currency, title, description, story, duration, cover_image, account_holder, bank_name, account_number, account_type, completed, created_at, updated_at`
 
 	err := sqlDB.QueryRow(
 		query,
+		campaign.Country,
+		campaign.Postcode,
+		campaign.Category,
+		campaign.WhoFor,
+		campaign.Goal,
+		campaign.Currency,
 		campaign.Title,
+		campaign.Description,
 		campaign.Story,
-		campaign.CampaignDays,
-		campaign.ImageVideo,
+		campaign.Duration,
+		campaign.CoverImage,
+		campaign.AccountHolder,
+		campaign.BankName,
+		campaign.AccountNumber,
+		campaign.AccountType,
 		campaign.Completed,
 		id,
 	).Scan(
 		&campaign.ID,
+		&campaign.Country,
+		&campaign.Postcode,
+		&campaign.Category,
+		&campaign.WhoFor,
+		&campaign.Goal,
+		&campaign.Currency,
 		&campaign.Title,
+		&campaign.Description,
 		&campaign.Story,
-		&campaign.CampaignDays,
-		&campaign.ImageVideo,
+		&campaign.Duration,
+		&campaign.CoverImage,
+		&campaign.AccountHolder,
+		&campaign.BankName,
+		&campaign.AccountNumber,
+		&campaign.AccountType,
 		&campaign.Completed,
 		&campaign.CreatedAt,
 		&campaign.UpdatedAt,

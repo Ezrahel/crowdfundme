@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"net/http"
 	"server/campaign"
+	usermgt "server/userMgt"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -34,6 +35,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	api.GET("/", campaign.GetCampaigns)
 	api.GET("/:id", campaign.GetCampaign)
 	api.DELETE("/:id", campaign.DeleteCampaign)
+	api.POST("/auth", usermgt.ClerkUserMgt)
 
 	return r
 }
