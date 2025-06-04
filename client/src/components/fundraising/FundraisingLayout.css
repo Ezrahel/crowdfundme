@@ -48,4 +48,148 @@
 .setup-intro p {
   color: #6b7280;
   line-height: 1.5;
+}
+
+.fundraising-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.fundraising-form {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+}
+
+.form-content {
+  flex: 1;
+}
+
+.navigation-section {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Amount Input */
+.amount-input {
+  display: flex;
+  gap: 10px;
+}
+
+.amount-input input {
+  flex: 2;
+}
+
+.amount-input select {
+  flex: 1;
+}
+
+/* Navigation Buttons */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.back-button,
+.next-button {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  max-width: 200px;
+}
+
+.back-button {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.back-button:hover {
+  background: #e9ecef;
+}
+
+.next-button {
+  background: #4a90e2;
+  border: none;
+  color: white;
+}
+
+.next-button:hover:not(.disabled) {
+  background: #357abd;
+}
+
+.next-button.disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .fundraising-container {
+    padding: 10px;
+  }
+
+  .fundraising-form {
+    padding: 20px;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .back-button,
+  .next-button {
+    max-width: 100%;
+  }
+
+  .amount-input {
+    flex-direction: column;
+  }
+
+  .amount-input input,
+  .amount-input select {
+    width: 100%;
+  }
 } 

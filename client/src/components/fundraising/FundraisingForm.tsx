@@ -1,27 +1,52 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFundraising } from '../../contexts/FundraisingContext';
 import LocationAndCategory from './LocationAndCategory';
 import WhoFor from './WhoFor';
 import Goal from './Goal';
 import CampaignDetails from './CampaignDetails';
 import AccountDetails from './AccountDetails';
+import NavigationButtons from './NavigationButtons';
 import './FundraisingLayout.css';
 
 const FundraisingForm: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const navigate = useNavigate();
   const { submitData, isLoading, error } = useFundraising();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState({
+    whoFor: '',
+    accountDetails: {
+      name: '',
+      email: '',
+      phone: ''
+    },
+    campaignDetails: {
+      title: '',
+      description: '',
+      story: '',
+      duration: 30,
+      coverImage: ''
+    },
+    goal: {
+      amount: '',
+      currency: 'NGN'
+    },
+    locationAndCategory: {
+      location: '',
+      category: ''
+    }
+  });
 
-  const steps = [
-    { id: 1, title: 'Location & Category', component: LocationAndCategory },
-    { id: 2, title: 'Who You\'re Fundraising For', component: WhoFor },
-    { id: 3, title: 'Goal', component: Goal },
-    { id: 4, title: 'Campaign Details', component: CampaignDetails },
-    { id: 5, title: 'Account Details', component: AccountDetails },
-  ];
+  const totalSteps = 5;
 
   const handleNext = () => {
-    if (currentStep < steps.length) {
+    if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
+    } else {
+      // Handle form submission
+      console.log('Form submitted:', formData);
+      // Navigate to campaign page after successful submission
+      navigate(`/campaign/123`); // Replace with actual campaign ID
     }
   };
 
@@ -31,63 +56,73 @@ const FundraisingForm: React.FC = () => {
     }
   };
 
+  const handleInputChange = (step: string, data: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [step]: data
+    }));
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <WhoFor value={formData.whoFor} onChange={(value) => handleInputChange('whoFor', value)} />;
+      case 2:
+        return <AccountDetails value={formData.accountDetails} onChange={(value) => handleInputChange('accountDetails', value)} />;
+      case 3:
+        return <CampaignDetails value={formData.campaignDetails} onChange={(value) => handleInputChange('campaignDetails', value)} />;
+      case 4:
+        return <Goal value={formData.goal} onChange={(value) => handleInputChange('goal', value)} />;
+      case 5:
+        return <LocationAndCategory value={formData.locationAndCategory} onChange={(value) => handleInputChange('locationAndCategory', value)} />;
+      default:
+        return null;
+    }
+  };
+
+  const isNextDisabled = () => {
+    switch (currentStep) {
+      case 1:
+        return !formData.whoFor;
+      case 2:
+        return !formData.accountDetails.name || !formData.accountDetails.email;
+      case 3:
+        return !formData.campaignDetails.title || !formData.campaignDetails.description;
+      case 4:
+        return !formData.goal.amount;
+      case 5:
+        return !formData.locationAndCategory.location || !formData.locationAndCategory.category;
+      default:
+        return false;
+    }
+  };
+
   const handleSubmit = async () => {
     await submitData();
   };
 
-  const CurrentStepComponent = steps[currentStep - 1].component;
-
   return (
-    <div className="fundraising-setup">
-      <aside className="fixed-sidebar">
-        <div className="sidebar-content">
-          <div className="logo">CrowdFundMe</div>
-          <div className="setup-intro">
-            <h3>Step {currentStep} of {steps.length}</h3>
-            <h1>{steps[currentStep - 1].title}</h1>
-            <p>We're here to guide you every step of the way.</p>
-          </div>
+    <div className="fundraising-container">
+      <div className="fundraising-form">
+        <h2 className="text-2xl font-bold mb-6">Create Your Fundraiser</h2>
+        <div className="form-content">
+          {renderStep()}
         </div>
-      </aside>
-
-      <main className="scrollable-main">
-        <div className="bg-white shadow rounded-lg p-6">
-          <CurrentStepComponent />
+        <div className="navigation-section">
+          <NavigationButtons
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            onNext={handleNext}
+            onBack={handleBack}
+            isNextDisabled={isNextDisabled()}
+          />
         </div>
-
-        <div className="mt-6 flex justify-between">
-          {currentStep > 1 && (
-            <button
-              onClick={handleBack}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-            >
-              Back
-            </button>
-          )}
-          {currentStep < steps.length ? (
-            <button
-              onClick={handleNext}
-              className="ml-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-            >
-              Next
-            </button>
-          ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className="ml-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50"
-            >
-              {isLoading ? 'Submitting...' : 'Submit'}
-            </button>
-          )}
-        </div>
-
         {error && (
           <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-md">
             {error}
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 };

@@ -1,18 +1,27 @@
 import React from 'react';
 import { useFundraising } from '../../contexts/FundraisingContext';
 
-const CampaignDetails: React.FC = () => {
-  const { data, updateData } = useFundraising();
+interface CampaignDetailsData {
+  title: string;
+  description: string;
+  story: string;
+  duration: number;
+  coverImage: string;
+}
 
-  const handleChange = (
+interface CampaignDetailsProps {
+  value: CampaignDetailsData;
+  onChange: (value: CampaignDetailsData) => void;
+}
+
+const CampaignDetails: React.FC<CampaignDetailsProps> = ({ value, onChange }) => {
+  const handleChange = (field: keyof CampaignDetailsData) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
-    if (name === 'duration') {
-      updateData({ [name]: parseInt(value) || 30 });
-    } else {
-      updateData({ [name]: value });
-    }
+    onChange({
+      ...value,
+      [field]: e.target.value
+    });
   };
 
   return (
@@ -25,8 +34,8 @@ const CampaignDetails: React.FC = () => {
           type="text"
           name="title"
           id="title"
-          value={data.title}
-          onChange={handleChange}
+          value={value.title}
+          onChange={handleChange('title')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         />
@@ -40,8 +49,8 @@ const CampaignDetails: React.FC = () => {
           type="text"
           name="description"
           id="description"
-          value={data.description}
-          onChange={handleChange}
+          value={value.description}
+          onChange={handleChange('description')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         />
@@ -55,8 +64,8 @@ const CampaignDetails: React.FC = () => {
           name="story"
           id="story"
           rows={6}
-          value={data.story}
-          onChange={handleChange}
+          value={value.story}
+          onChange={handleChange('story')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         />
@@ -69,8 +78,8 @@ const CampaignDetails: React.FC = () => {
         <select
           name="duration"
           id="duration"
-          value={data.duration}
-          onChange={handleChange}
+          value={value.duration}
+          onChange={handleChange('duration')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         >
@@ -90,8 +99,8 @@ const CampaignDetails: React.FC = () => {
           type="url"
           name="coverImage"
           id="coverImage"
-          value={data.coverImage}
-          onChange={handleChange}
+          value={value.coverImage}
+          onChange={handleChange('coverImage')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           placeholder="https://example.com/image.jpg"
         />

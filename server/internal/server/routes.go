@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"net/http"
 	"server/campaign"
+	"server/payment"
 	usermgt "server/userMgt"
+	"server/wallet"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -36,6 +38,11 @@ func (s *Server) RegisterRoutes() http.Handler {
 	api.GET("/:id", campaign.GetCampaign)
 	api.DELETE("/:id", campaign.DeleteCampaign)
 	api.POST("/auth", usermgt.ClerkUserMgt)
+	api.POST("/ercas/webhook", wallet.ErcasWebhook)
+	api.POST("/donation", wallet.DonationWebhookHandler)
+
+	// Register payment routes
+	payment.RegisterRoutes(api)
 
 	return r
 }

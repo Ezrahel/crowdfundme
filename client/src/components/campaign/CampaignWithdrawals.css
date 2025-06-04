@@ -1,0 +1,247 @@
+/* Overall container */
+.campaign-withdrawals-container {
+  display: flex;
+  /* Adjust styles if integrating a fixed sidebar */
+}
+
+/* Sidebar Styles */
+.campaign-sidebar {
+  width: 250px; /* Fixed width for the sidebar */
+  background-color: white; /* White background */
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+.campaign-info {
+  margin-bottom: 30px;
+}
+
+.campaign-info .campaign-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.campaign-info .created-by {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.campaign-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.campaign-nav li {
+  margin-bottom: 10px;
+}
+
+.campaign-nav a {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #666; /* Default link color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.campaign-nav a i {
+  margin-right: 10px; /* Space between icon and text */
+}
+
+.campaign-nav a:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.campaign-nav li.active a {
+  background-color: #e8f5e9; /* Light green background for active */
+  color: #1a7f37; /* Green color for active */
+  font-weight: bold;
+}
+
+/* Main content area styles */
+.withdrawals-main-content {
+  flex-grow: 1; /* Takes up remaining space */
+  padding: 20px;
+}
+
+.withdrawals-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a7f37; /* Green color */
+  margin-bottom: 5px;
+}
+
+.withdrawals-description {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* Available Funds Section */
+.available-funds-section {
+  margin-bottom: 30px;
+}
+
+.available-funds-section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.available-funds-card {
+  background-color: #e8f5e9; /* Light green background */
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.available-funds-card p {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+}
+
+.available-funds-card h3 {
+  margin: 5px 0 0 0;
+  font-size: 2rem;
+  color: #1a7f37; /* Green color */
+}
+
+/* Withdrawal History Section */
+.withdrawal-history-section {
+  margin-bottom: 30px;
+}
+
+.withdrawal-history-section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.withdrawal-history-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden; /* To respect border-radius on table */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.withdrawal-history-table th,
+.withdrawal-history-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.withdrawal-history-table th {
+  background-color: #f8f9fa; /* Light gray background for header */
+  font-weight: bold;
+  color: #333;
+}
+
+.withdrawal-history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.withdrawal-history-table tbody tr:hover {
+  background-color: #f0f0f0; /* Hover effect */
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px; /* Pill shape */
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.status-badge.completed {
+  background-color: #d4edda; /* Light green */
+  color: #1a7f37; /* Green color */
+}
+
+.status-badge.pending {
+  background-color: #fff3cd; /* Light yellow */
+  color: #856404;
+}
+
+.status-badge.failed {
+  background-color: #f8d7da; /* Light red */
+  color: #721c24;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .campaign-withdrawals-container {
+    flex-direction: column; /* Stack sidebar and main content */
+  }
+
+  .campaign-sidebar {
+    width: 100%; /* Full width on small screens */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Adjust shadow */
+  }
+
+  .withdrawals-main-content {
+    padding: 10px; /* Reduce padding */
+  }
+
+  .withdrawals-title {
+    font-size: 1.75rem;
+  }
+
+  .available-funds-section h2,
+  .withdrawal-history-section h2 {
+    font-size: 1.25rem;
+  }
+
+  .withdrawal-history-table table,
+  .withdrawal-history-table thead,
+  .withdrawal-history-table tbody,
+  .withdrawal-history-table th,
+  .withdrawal-history-table td,
+  .withdrawal-history-table tr {
+    display: block; /* Stack elements */
+  }
+
+  .withdrawal-history-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .withdrawal-history-table tr {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+
+  .withdrawal-history-table td {
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+
+  .withdrawal-history-table td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    content: attr(data-label); /* Use data-label for column headers */
+    text-align: left;
+  }
+
+  /* Specific data-labels for columns */
+  .withdrawal-history-table td:nth-of-type(1):before { content: "Date"; }
+  .withdrawal-history-table td:nth-of-type(2):before { content: "Amount"; }
+  .withdrawal-history-table td:nth-of-type(3):before { content: "Status"; }
+  .withdrawal-history-table td:nth-of-type(4):before { content: "Method"; }
+  .withdrawal-history-table td:nth-of-type(5):before { content: "Details"; }
+} 

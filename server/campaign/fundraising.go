@@ -2,6 +2,7 @@ package campaign
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -35,13 +36,15 @@ type Campaign struct {
 	AccountNumber string `json:"account_number"`
 	AccountType   string `json:"account_type"`
 
+	// Campaign Status
+	Balance   float64   `json:"balance"`
 	Completed bool      `json:"completed"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
 const CreateCampaignTable = `CREATE TABLE IF NOT EXISTS fundraising (
-	id SERIAL PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 	country VARCHAR(255) NOT NULL,
 	postcode VARCHAR(20) NOT NULL,
 	category VARCHAR(100) NOT NULL,
@@ -50,21 +53,62 @@ const CreateCampaignTable = `CREATE TABLE IF NOT EXISTS fundraising (
 	currency VARCHAR(3) NOT NULL,
 	title VARCHAR(255) NOT NULL,
 	description TEXT,
-	story TEXT NOT NULL,
+story TEXT NOT NULL,
 	duration INTEGER NOT NULL,
 	cover_image VARCHAR(255),
 	account_holder VARCHAR(255) NOT NULL,
 	bank_name VARCHAR(255) NOT NULL,
 	account_number VARCHAR(50) NOT NULL,
 	account_type VARCHAR(50) NOT NULL,
-	completed BOOLEAN DEFAULT FALSE,
+	balance DECIMAL(12,2) DEFAULT 0,
+completed BOOLEAN DEFAULT FALSE,
 	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 )`
 
+func addBalanceColumn(db *sql.DB) error {
+	// First check if the column exists
+	var columnExists bool
+	err := db.QueryRow(`
+		SELECT EXISTS (
+			SELECT 1 
+			FROM information_schema.columns 
+			WHERE table_name = 'fundraising' 
+			AND column_name = 'balance'
+		);
+	`).Scan(&columnExists)
+	if err != nil {
+		return fmt.Errorf("failed to check if balance column exists: %v", err)
+	}
+
+	// If column doesn't exist, add it
+	if !columnExists {
+		_, err = db.Exec(`
+			ALTER TABLE fundraising 
+			ADD COLUMN balance DECIMAL(12,2) DEFAULT 0;
+		`)
+		if err != nil {
+			return fmt.Errorf("failed to add balance column: %v", err)
+		}
+	}
+
+	return nil
+}
+
 func initTable(db *sql.DB) error {
-	_, err := db.Exec(CreateCampaignTable)
-	return err
+	// First drop the existing table
+	_, err := db.Exec(`DROP TABLE IF EXISTS fundraising`)
+	if err != nil {
+		return fmt.Errorf("failed to drop table: %v", err)
+	}
+
+	// Then create the table with the correct schema
+	_, err = db.Exec(CreateCampaignTable)
+	if err != nil {
+		return fmt.Errorf("failed to create table: %v", err)
+	}
+
+	return nil
 }
 
 func CreateCampaign(ctx *gin.Context) {
@@ -108,7 +152,7 @@ func CreateCampaign(ctx *gin.Context) {
 			$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
 			$16, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 		)
-		RETURNING id, created_at, updated_at`
+	RETURNING id, created_at, updated_at`
 
 	err := sqlDB.QueryRow(
 		query,
@@ -193,15 +237,52 @@ func GetCampaign(ctx *gin.Context) {
 	}
 
 	id := ctx.Param("id")
-	query := `SELECT * FROM fundraising WHERE id = $1`
+	query := `SELECT id, country, postcode, category, who_for, goal, currency, 
+			  title, description, story, duration, cover_image, 
+			  account_holder, bank_name, account_number, account_type, 
+			  balance, completed, created_at, updated_at 
+			  FROM fundraising WHERE id = $1`
+
 	var campaign Campaign
-	err := sqlDB.QueryRow(query, id).Scan(&campaign.ID, &campaign.Country, &campaign.Postcode, &campaign.Category, &campaign.WhoFor, &campaign.Goal, &campaign.Currency, &campaign.Title, &campaign.Description, &campaign.Story, &campaign.Duration, &campaign.CoverImage, &campaign.AccountHolder, &campaign.BankName, &campaign.AccountNumber, &campaign.AccountType, &campaign.Completed, &campaign.CreatedAt, &campaign.UpdatedAt)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": "could not get campaign",
+	err := sqlDB.QueryRow(query, id).Scan(
+		&campaign.ID,
+		&campaign.Country,
+		&campaign.Postcode,
+		&campaign.Category,
+		&campaign.WhoFor,
+		&campaign.Goal,
+		&campaign.Currency,
+		&campaign.Title,
+		&campaign.Description,
+		&campaign.Story,
+		&campaign.Duration,
+		&campaign.CoverImage,
+		&campaign.AccountHolder,
+		&campaign.BankName,
+		&campaign.AccountNumber,
+		&campaign.AccountType,
+		&campaign.Balance,
+		&campaign.Completed,
+		&campaign.CreatedAt,
+		&campaign.UpdatedAt,
+	)
+
+	if err == sql.ErrNoRows {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"error": "campaign not found",
+			"id":    id,
 		})
 		return
 	}
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "could not get campaign",
+			"details": err.Error(),
+		})
+		return
+	}
+
 	ctx.JSON(http.StatusOK, campaign)
 }
 

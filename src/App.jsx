@@ -14,7 +14,11 @@ import LandingPage from './pages/landingPage/landingPage';
 import Login from './pages/auth/Login';
 import WithdrawalPage from './components/dashboard/WithdrawalPage';
 import { FundraisingProvider } from './context/FundraisingContext';
-
+import PaymentForm from '../client/src/components/payment/PaymentForm';
+import CampaignPage from '../client/src/components/campaign/CampaignWithdrawals';
+// import ProtectedRoute from './components/ProtectedRoute';
+import UserProfile from '../client/src/components/user/UserProfile';
+import NewCampaignDashboard from '../client/src/components/campaign/NewCampaignDashboard';
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
@@ -39,6 +43,10 @@ function App() {
             <Route path="/dashboard" element={<UserDashboard/>}/>
             <Route path="/about" element={<AboutUs/>}/>
             <Route path="/withdrawal" element={<WithdrawalPage/>}/>
+            <Route path="/payments/initiate" element={<PaymentForm/>}/>
+            <Route path="/campaign/1" element={<CampaignPage />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/newdashboard" element={<NewCampaignDashboard />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Router>

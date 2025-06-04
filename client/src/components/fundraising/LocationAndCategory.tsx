@@ -1,66 +1,58 @@
 import React from 'react';
-import { useFundraising } from '../../contexts/FundraisingContext';
 
-const LocationAndCategory: React.FC = () => {
-  const { data, updateData } = useFundraising();
+interface LocationAndCategoryData {
+  location: string;
+  category: string;
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    updateData({ [name]: value });
+interface LocationAndCategoryProps {
+  value: LocationAndCategoryData;
+  onChange: (value: LocationAndCategoryData) => void;
+}
+
+const LocationAndCategory: React.FC<LocationAndCategoryProps> = ({ value, onChange }) => {
+  const handleChange = (field: keyof LocationAndCategoryData) => (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    onChange({
+      ...value,
+      [field]: e.target.value
+    });
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-          Country
-        </label>
-        <input
-          type="text"
-          name="country"
-          id="country"
-          value={data.country}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          required
-        />
-      </div>
+    <div className="form-group">
+      <label htmlFor="location">Location</label>
+      <select
+        id="location"
+        value={value.location}
+        onChange={handleChange('location')}
+        className="form-control"
+        required
+      >
+        <option value="">Select location</option>
+        <option value="lagos">Lagos</option>
+        <option value="abuja">Abuja</option>
+        <option value="port-harcourt">Port Harcourt</option>
+        <option value="ibadan">Ibadan</option>
+        <option value="other">Other</option>
+      </select>
 
-      <div>
-        <label htmlFor="postcode" className="block text-sm font-medium text-gray-700">
-          Postcode
-        </label>
-        <input
-          type="text"
-          name="postcode"
-          id="postcode"
-          value={data.postcode}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          required
-        />
-      </div>
-
-      <div>
-        <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-          Category
-        </label>
-        <select
-          name="category"
-          id="category"
-          value={data.category}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          required
-        >
-          <option value="">Select a category</option>
-          <option value="medical">Medical</option>
-          <option value="education">Education</option>
-          <option value="emergency">Emergency</option>
-          <option value="memorial">Memorial</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
+      <label htmlFor="category">Category</label>
+      <select
+        id="category"
+        value={value.category}
+        onChange={handleChange('category')}
+        className="form-control"
+        required
+      >
+        <option value="">Select category</option>
+        <option value="medical">Medical</option>
+        <option value="education">Education</option>
+        <option value="emergency">Emergency</option>
+        <option value="nonprofit">Non-Profit</option>
+        <option value="other">Other</option>
+      </select>
     </div>
   );
 };

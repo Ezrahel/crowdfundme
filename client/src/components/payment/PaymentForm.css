@@ -1,0 +1,283 @@
+.payment-form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.payment-form h2 {
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #4a5568;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #a0aec0;
+}
+
+.error-message {
+    background-color: #fff5f5;
+    color: #c53030;
+    padding: 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #feb2b2;
+    margin-bottom: 1rem;
+}
+
+.submit-button {
+    background-color: #4299e1;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #3182ce;
+}
+
+.submit-button:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}
+
+/* Payment Method Details Styles */
+.payment-method-details {
+    background-color: #f8fafc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+/* Card Details */
+.card-details-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Bank Transfer Details */
+.bank-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.bank-info h3 {
+    color: #2d3748;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.bank-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+}
+
+.bank-detail-item .label {
+    font-weight: 500;
+    color: #4a5568;
+    min-width: 120px;
+}
+
+.bank-detail-item .value {
+    color: #2d3748;
+    font-family: monospace;
+    font-size: 1.1rem;
+}
+
+.copy-button {
+    margin-left: auto;
+    padding: 0.25rem 0.75rem;
+    background-color: #edf2f7;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    color: #4a5568;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.copy-button:hover {
+    background-color: #e2e8f0;
+}
+
+.note {
+    color: #718096;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* QR Code Details */
+.qrcode-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.qrcode-placeholder {
+    width: 200px;
+    height: 200px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.qrcode-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.qrcode-note {
+    text-align: center;
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+/* USSD Details */
+.ussd-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ussd-info h3 {
+    color: #2d3748;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.ussd-steps {
+    background: white;
+    border-radius: 4px;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+.ussd-steps p {
+    margin: 0.5rem 0;
+    color: #4a5568;
+}
+
+.ussd-note {
+    background-color: #ebf8ff;
+    border: 1px solid #bee3f8;
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.ussd-note p {
+    color: #2b6cb0;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* Pay Attitude Details */
+.pay-attitude-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pay-attitude-info h3 {
+    color: #2d3748;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.pay-attitude-steps {
+    background: white;
+    border-radius: 4px;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+.pay-attitude-steps p {
+    margin: 0.5rem 0;
+    color: #4a5568;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .payment-form-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .payment-form h2 {
+        font-size: 1.5rem;
+    }
+
+    .card-details-row {
+        grid-template-columns: 1fr;
+    }
+
+    .bank-detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .bank-detail-item .label {
+        min-width: auto;
+    }
+
+    .copy-button {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+} 

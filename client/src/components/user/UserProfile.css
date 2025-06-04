@@ -1,0 +1,156 @@
+.user-profile-container {
+  max-width: 900px; /* Adjust max-width as needed */
+  margin: 0 auto; /* Center the container */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.profile-page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a7f37; /* Using the specified color */
+  margin-bottom: 20px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee; /* Separator line */
+  position: relative;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20px;
+  border: 2px solid #1a7f37; /* Add border with specified color */
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info h2 {
+  font-size: 1.5rem;
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.profile-info .joined-date {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.edit-profile-button {
+  background-color: #e8f5e9; /* Light green background */
+  color: #1a7f37; /* Green text */
+  border: none;
+  border-radius: 20px; /* Pill shape */
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background-color 0.3s ease;
+}
+
+.edit-profile-button:hover {
+  background-color: #d0e9d1;
+}
+
+.profile-tabs {
+  display: flex;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 30px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+  transition: color 0.3s ease, border-bottom-color 0.3s ease;
+  margin-right: 20px;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-button:hover {
+  color: #333;
+}
+
+.tab-button.active {
+  color: #1a7f37; /* Active tab color */
+  border-bottom-color: #1a7f37; /* Active tab indicator */
+  font-weight: bold;
+}
+
+.profile-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.no-content-card {
+  border: 2px dashed #e0e0e0; /* Dashed border */
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  color: #666;
+}
+
+.no-content-card p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.no-content-card button {
+  background-color: #e8f5e9; /* Light green background */
+  color: #1a7f37; /* Green text */
+  border: none;
+  border-radius: 20px; /* Pill shape */
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.no-content-card button:hover {
+  background-color: #d0e9d1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-avatar {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .edit-profile-button {
+    position: static;
+    margin-top: 15px;
+  }
+
+  .profile-tabs {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tab-button {
+    margin-right: 0;
+  }
+} 
