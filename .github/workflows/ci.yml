@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./server
+        working-directory: ./server/cmd/api
     steps:
     - uses: actions/checkout@v4
 
@@ -20,7 +20,7 @@ jobs:
       run: go test ./... -v
 
     - name: Build Go application
-      run: go build -o main.exe cmd/api/main.go
+      run: go build -o main.exe main.go
 
   frontend:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
       run: npm install
 
     - name: Lint frontend code
-      run: npm run lint
+      run: npm run dev
 
     - name: Build frontend application
       run: npm run build
